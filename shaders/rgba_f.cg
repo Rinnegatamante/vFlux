@@ -1,0 +1,15 @@
+__nativecolor float4 main(
+	uniform float4 color
+	__regformat unsigned char4 fragColor : FRAGCOLOR) : COLOR
+{
+	unsigned char4 clr = (unsigned char4)color;
+	return __fastblend(
+		clr,
+		fragColor,
+		__BLEND_OP_ADD,
+		__BLEND_FACTOR_SRC1_ALPHA,
+		__BLEND_FACTOR_ONE_MINUS_SRC1_ALPHA,
+		__BLEND_OP_ADD,
+		__BLEND_FACTOR_SRC_ALPHA,
+		__BLEND_FACTOR_ONE_MINUS_SRC_ALPHA);
+}
