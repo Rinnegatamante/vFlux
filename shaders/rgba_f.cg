@@ -1,15 +1,19 @@
-__nativecolor float4 main(
-	uniform float4 color
+__nativecolor __regformat unsigned char4 main(
+	uniform float4 color,
 	__regformat unsigned char4 fragColor : FRAGCOLOR) : COLOR
 {
-	unsigned char4 clr = (unsigned char4)color;
-	return __fastblend(
+	unsigned char4 clr = (unsigned char4)(color * 255);
+	if (fragColor.r < 30 && fragColor.g < 30 && fragColor.b < 30){
+		return fragColor;
+	}else{
+		return __fastblend(
 		clr,
 		fragColor,
 		__BLEND_OP_ADD,
 		__BLEND_FACTOR_SRC1_ALPHA,
 		__BLEND_FACTOR_ONE_MINUS_SRC1_ALPHA,
 		__BLEND_OP_ADD,
-		__BLEND_FACTOR_SRC_ALPHA,
-		__BLEND_FACTOR_ONE_MINUS_SRC_ALPHA);
+		__BLEND_FACTOR_SRC1_ALPHA,
+		__BLEND_FACTOR_ONE_MINUS_SRC1_ALPHA);
+	}
 }
